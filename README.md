@@ -58,7 +58,9 @@ The analytical formulation follows the DAB phase-shift modelling and design fram
 The design routine searches the feasible `(D1, D2)` space and selects an operating point that minimizes the peak-current-related objective
 
 ```math
-J = \frac{G}{F}
+\begin{aligned}
+\hspace{2cm} J = \frac{G}{F}
+\end{aligned}
 ```   
 where, G = Current stress and F = Normalized power
 Calculated for the specified demanded power.
