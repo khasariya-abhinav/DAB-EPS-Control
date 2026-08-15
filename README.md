@@ -110,9 +110,9 @@ The default operating point defined in `scripts/DAB_EPS_Main.m` is:
 
 The voltage conversion ratio used by the analytical model is
 
-$$
+```math
 k = \frac{V_1}{nV_2}
-$$
+```
 
 and the present implementation explicitly operates in **buck mode (`k > 1`)**.
 
@@ -124,47 +124,47 @@ and the present implementation explicitly operates in **buck mode (`k > 1`)**.
 
 For the forward-power buck-mode formulation used in this repository, the design stage uses
 
-$$
+```math
 F(D_1,D_2)=D_2(1-D_2)+\frac{1}{2}D_1(1-D_1-2D_2)
-$$
+```
 
 and
 
-$$
+```math
 P=\frac{nV_1V_2}{2f_{sw}L}F(D_1,D_2).
-$$
+```
 
 The current-stress function is represented by
 
-$$
+```math
 G(D_1,D_2)=k(1-D_1)+(2D_1+2D_2-1).
-$$
+```
 
 For a specified design power, the inductance is obtained from
 
-$$
+```math
 L=\frac{nV_1V_2F}{2f_{sw}P_{des}}.
-$$
+```
 
 The corresponding peak-inductor-current expression used by the design routine is
 
-$$
+```math
 I_{pk}=\frac{P_{des}}{2V_1}\frac{G}{F}.
-$$
+```
 
 The grid model uses the normalized power expression
 
-$$
+```math
 p^*=4D_2(1-D_2)+2D_1(1-D_1-2D_2)
-$$
+```
 
 with
 
-$$
+```math
 P=P_Np^*,
 \qquad
 P_N=\frac{nV_1V_2}{8f_{sw}L}.
-$$
+```
 
 The model also evaluates normalized current stress and backflow-power surfaces across the feasible EPS region.
 
