@@ -337,6 +337,18 @@ Representative generated results are stored under `results/`.
 
 These figures are intended as **analysis outputs**, not as independent experimental validation. The current repository contains MATLAB/Simulink simulation work rather than hardware measurements.
 
+## Simulink Validation
+
+The analytical results are validated using the closed-loop Simulink implementation of the DAB converter.
+
+### Output Voltage, Current and Power
+
+![Output parameters](results/outputparameters.png)
+
+### Bridge Voltages and Inductor Current
+![Bridge Parameters](results/bridgeparameters.png)
+
+
 ---
 
 ## 10. Repository Structure
