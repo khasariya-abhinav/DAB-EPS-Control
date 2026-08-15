@@ -2,6 +2,11 @@
 
 A MATLAB/Simulink implementation of **Extended Phase Shift (EPS) modulation for a Dual Active Bridge (DAB) DC–DC converter**, combining analytical operating-point design, full D1–D2 operating-region mapping, current-stress/backflow analysis, power-to-duty look-up-table generation, and closed-loop PI control.
 
+![MATLAB](https://img.shields.io/badge/MATLAB-R2024-orange)
+![Simulink](https://img.shields.io/badge/Simulink-Model-blue)
+![Power Electronics](https://img.shields.io/badge/Domain-Power%20Electronics-success)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
+
 > **Project focus:** analytical and simulation-based evaluation of EPS modulation in buck-mode DAB operation. The present implementation does **not** claim a complete ZVS optimization framework; ZVS is intentionally outside the current control/design objective.
 
 ---
@@ -42,7 +47,7 @@ Converter specifications
 └─────────────────────┘
 ```
 
-The analytical formulation follows the DAB phase-shift modelling and design framework presented by Rodríguez *et al.* and is adapted here into a reusable MATLAB workflow. See **References** below.
+The analytical formulation follows the DAB phase-shift modelling and design framework presented by Biao Zhao *et al.* and is adapted here into a reusable MATLAB workflow. See **References** below.
 
 ---
 
@@ -52,11 +57,11 @@ The analytical formulation follows the DAB phase-shift modelling and design fram
 
 The design routine searches the feasible `(D1, D2)` space and selects an operating point that minimizes the peak-current-related objective
 
-\[
-J = \frac{G}{F}
-\]
-
-for the specified demanded power.
+$$
+Cost Function (J) = \frac{G}{F}
+$$   
+where, G = Current stress and F = Normalized power
+Calculated for the specified demanded power.
 
 The selected operating point is then used to derive the required series/leakage inductance and associated operating quantities.
 
@@ -93,8 +98,6 @@ The default operating point defined in `scripts/DAB_EPS_Main.m` is:
 | Primary DC voltage | `V1` | 220 | V |
 | Secondary DC voltage | `V2` | 80 | V |
 | Transformer turns ratio | `n = N1/N2` | 2 | — |
-| Primary winding turns | `N1` | 220 | — |
-| Secondary winding turns | `N2` | 110 | — |
 | Switching frequency | `fsw` | 50 | kHz |
 | Design power | `Pdes` | 1000 | W |
 | Load resistance | `R` | 6 | Ω |
@@ -105,9 +108,9 @@ The default operating point defined in `scripts/DAB_EPS_Main.m` is:
 
 The voltage conversion ratio used by the analytical model is
 
-\[
+$$
 k = \frac{V_1}{nV_2}
-\]
+$$
 
 and the present implementation explicitly operates in **buck mode (`k > 1`)**.
 
@@ -119,47 +122,47 @@ and the present implementation explicitly operates in **buck mode (`k > 1`)**.
 
 For the forward-power buck-mode formulation used in this repository, the design stage uses
 
-\[
+$$
 F(D_1,D_2)=D_2(1-D_2)+\frac{1}{2}D_1(1-D_1-2D_2)
-\]
+$$
 
 and
 
-\[
+$$
 P=\frac{nV_1V_2}{2f_{sw}L}F(D_1,D_2).
-\]
+$$
 
 The current-stress function is represented by
 
-\[
+$$
 G(D_1,D_2)=k(1-D_1)+(2D_1+2D_2-1).
-\]
+$$
 
 For a specified design power, the inductance is obtained from
 
-\[
+$$
 L=\frac{nV_1V_2F}{2f_{sw}P_{des}}.
-\]
+$$
 
 The corresponding peak-inductor-current expression used by the design routine is
 
-\[
+$$
 I_{pk}=\frac{P_{des}}{2V_1}\frac{G}{F}.
-\]
+$$
 
 The grid model uses the normalized power expression
 
-\[
+$$
 p^*=4D_2(1-D_2)+2D_1(1-D_1-2D_2)
-\]
+$$
 
 with
 
-\[
+$$
 P=P_Np^*,
 \qquad
 P_N=\frac{nV_1V_2}{8f_{sw}L}.
-\]
+$$
 
 The model also evaluates normalized current stress and backflow-power surfaces across the feasible EPS region.
 
@@ -376,27 +379,6 @@ DAB-EPS-Control/
 
 ---
 
-## 11. Reproducibility
-
-### MATLAB workflow
-
-1. Clone/download the repository.
-2. Open MATLAB.
-3. Set the project root as the working directory.
-4. Add `scripts/` to the MATLAB path.
-5. Open `scripts/DAB_EPS_Main.m`.
-6. Modify `spec` if required.
-7. Run the script.
-8. Inspect the generated command-window results and figures.
-
-For Simulink validation:
-
-1. Open `models/DAB_EPS_CL_model.slx`.
-2. Verify that the required workspace variables are available.
-3. Verify the model logging configuration.
-4. Run the simulation.
-5. Use `compare_script.m` if an SPS/EPS comparison is required.
-
 ### Computational note
 
 The default grid resolution is:
@@ -455,21 +437,28 @@ Natural next steps for this project include:
 
 ---
 
-## 14. Reference
+#### 14. References
 
-The analytical framework used as a primary reference for the EPS/DAB operating-region analysis is:
+The analytical framework and operating-region analysis implemented in this project are primarily based on the following works:
 
-> A. Rodríguez, A. Vázquez, D. G. Lamar, M. M. Hernando, and J. Sebastián, “Different Purpose Design Strategies and Techniques to Improve the Performance of a Dual Active Bridge With Phase-Shift Control,” *IEEE Transactions on Power Electronics*, vol. 30, no. 2, pp. 790–804, Feb. 2015. DOI: `10.1109/TPEL.2014.2309853`.
+> **B. Zhao, Q. Yu, and W. Sun**, “Extended-Phase-Shift Control of Isolated Bidirectional DC–DC Converter for Power Distribution in Microgrid,” *IEEE Transactions on Power Electronics*, vol. 27, no. 11, pp. 4667–4680, Nov. 2012.
+> DOI: `10.1109/TPEL.2011.2180928`
 
-The paper develops analytical models and design approaches for DAB phase-shift operation, including operating-region and ZVS-related analysis. The implementation in this repository is an independent MATLAB/Simulink implementation and should not be considered an official reproduction of the authors' software.
+This work provides the fundamental analytical framework for **Extended Phase-Shift (EPS) control** of the Dual Active Bridge (DAB) converter, including the derivation of power-transfer characteristics, operating regions, current behavior, and control relationships.
 
----
+> **A. Rodríguez, A. Vázquez, D. G. Lamar, M. M. Hernando, and J. Sebastián**, “Different Purpose Design Strategies and Techniques to Improve the Performance of a Dual Active Bridge With Phase-Shift Control,” *IEEE Transactions on Power Electronics*, vol. 30, no. 2, pp. 790–804, Feb. 2015.
+> DOI: `10.1109/TPEL.2014.2309853`
 
-## 15. License
+This work provides additional analytical treatment of DAB phase-shift operation, including **operating-region analysis, design strategies, current-stress considerations, and ZVS-related operating boundaries**.
 
-This project is distributed under the license included in `LICENSE`.
+### Relation to the Reference Work
 
-If you use substantial portions of the analytical formulation or figures derived from the referenced literature, cite the original publication appropriately.
+This repository represents an **independent academic implementation and reproduction study** based on the analytical approaches presented in the above publications. The purpose is to understand, implement, and validate the underlying DAB/EPS analytical framework through MATLAB and Simulink.
+
+The implementation should therefore be viewed as a **reproduction and learning-oriented engineering study**, rather than a claim of novel theoretical contribution. While the analytical concepts and strategies are derived from the referenced literature, the **implementation details, numerical procedures, MATLAB scripts, lookup-table generation, visualization, and closed-loop Simulink realization may differ from those presented by the original authors**.
+
+All intellectual credit for the underlying analytical methods and published strategies belongs to the respective authors. The cited publications should be consulted for the complete theoretical derivations and original methodologies. 
+
 
 ---
 
