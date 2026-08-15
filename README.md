@@ -479,5 +479,5 @@ All intellectual credit for the underlying analytical methods and published stra
 ## Author
 
 **Abhinav Khasariya**  
-B.Tech — Sustainable Energy Engineering  
+B.Tech — Sustainable Energy Technologies  
 National Institute of Technology Kurukshetra
